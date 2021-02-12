@@ -13,6 +13,7 @@ export const Forecast = (props) => {
       );
       const data = await response.json();
       const dailyForecast = data.list.filter((forecast) => forecast.dt_txt.includes("12:00:00"));
+
       props.setForecastData(dailyForecast);
       setTimeout(() => {
         setLoading(false);
@@ -33,15 +34,21 @@ export const Forecast = (props) => {
           <h4>5 Day Forecast</h4>
         </Col>
         <Row className="align-items-center justify-content-center">
-          {props.home.forecastData.map((forecast) => (
-            <Col xs={12} md={6} lg={2} className="px-1 mx-2 mb-2">
-              <div className="forecast-daily-panel d-flex flex-column align-items-center justify-content-center text-center">
-                {!loading && <img src={`http://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png`} />}
-                <p className="font-weight-bold mb-0">{forecast.main.temp}°</p>
-                <p className="font-weight-light faded-txt mb-0">{forecast.weather[0].description}</p>
-              </div>
-            </Col>
-          ))}
+          {props.home.forecastData.map((forecast) => {
+            const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            const d = new Date(forecast.dt_txt);
+            const dayName = days[d.getDay()];
+            return (
+              <Col xs={12} md={6} lg={2} className="px-1 mx-2 mb-2">
+                <div className="forecast-daily-panel d-flex flex-column align-items-center justify-content-center text-center">
+                  <small className="mb-0">{dayName}</small>
+                  <img src={`http://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png`} />
+                  <p className="font-weight-bold mb-0">{forecast.main.temp}°</p>
+                  <p className="font-weight-light faded-txt mb-0">{forecast.weather[0].description}</p>
+                </div>
+              </Col>
+            );
+          })}
         </Row>
       </div>
     </Col>
