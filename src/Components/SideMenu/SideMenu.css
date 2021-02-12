@@ -1,0 +1,112 @@
+#sidebar-main-container {
+  width: 80px;
+  background-color: var(--tWhite);
+  min-height: 100vh;
+  position: fixed;
+  padding: 20px;
+  z-index: 999;
+}
+
+.sidebar-button {
+  color: #858383;
+  background-color: #dfdbdb;
+  border: none;
+  border-radius: 0.75rem;
+  height: 50px;
+  width: 50px;
+  font-size: 1.25rem;
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.sidebar-button:hover {
+  color: var(--tWhite);
+  background-color: #858383;
+  border: none;
+}
+
+.sidebar-button-label {
+  background-color: var(--tBlue);
+  padding: 5px 14px;
+  border-radius: 1rem;
+  color: var(--tWhite);
+  font-size: 0.8rem;
+  position: absolute;
+  margin-left: 20px;
+  display: none;
+}
+
+.sidebar-button:hover .sidebar-button-label {
+  display: inline-block;
+}
+
+.sidebar-button-notifications {
+  color: var(--tWhite);
+  background-color: var(--tRed);
+  border: none;
+  border-radius: 0.75rem;
+  height: 50px;
+  width: 50px;
+  font-size: 1.25rem;
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.sidebar-button-notifications:hover {
+  color: var(--tWhite);
+  background-color: #f34f4c;
+}
+
+#user-information {
+  position: relative;
+}
+
+.user-icon {
+  border-radius: 0.75rem;
+  height: 50px;
+  width: 50px;
+  background-color: pink !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: transform 0.15s ease-in-out;
+  cursor: pointer;
+}
+
+.user-icon:hover {
+  transform: scale(1.05);
+}
+
+.user-icon img {
+  height: 60px;
+  width: 60px;
+}
+
+.user-info-panel {
+  position: absolute;
+  top: -50px;
+  right: -250px;
+  width: 240px;
+  padding: 15px;
+  border-radius: 0.75rem;
+  background: #00d2ff;
+  background: -webkit-linear-gradient(to right, #619ef3, #0084ff);
+  background: linear-gradient(to right, #619ef3, #0084ff);
+  box-shadow: 0px 3px 4px -1px rgba(0, 0, 0, 0.2);
+  color: var(--tWhite) !important;
+}
+
+.user-info-panel p {
+  margin-bottom: -6px !important;
+}
+
+.profile-button {
+  color: #858383;
+  background-color: #dfdbdb;
+  border: none;
+  border-radius: 1rem;
+  font-size: 0.8rem;
+  position: relative;
+  padding: 4px 20px;
+}
