@@ -113,14 +113,22 @@ export const Home = (props) => {
                   (loaded ? (
                     <WeatherPanel />
                   ) : (
-                    <>
+                    <div className="loaders">
                       <PanelLoaderLg className="mr-2 mb-2" />
                       <PanelLoaderSm className="mr-2 mb-2" />
                       <PanelLoaderSm className="mb-2" />
-                    </>
+                    </div>
                   ))}
               </Row>
-              <Row>{loaded ? <Forecast /> : <PanelLoaderXl />}</Row>
+              <Row>
+                {loaded ? (
+                  <Forecast />
+                ) : (
+                  <div className="loaders">
+                    <PanelLoaderXl />
+                  </div>
+                )}
+              </Row>
             </div>
           </div>
         </Col>

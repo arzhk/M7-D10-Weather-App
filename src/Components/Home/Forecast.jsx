@@ -4,33 +4,13 @@ import "../WeatherPanel/WeatherPanel.css";
 import { Col, Row } from "react-bootstrap";
 
 export const Forecast = (props) => {
-  const [loading, setLoading] = useState(true);
-
-  const forecastDataFetcher = async (query) => {
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}forecast?q=${query}&units=metric${process.env.REACT_APP_API_KEY}`
-      );
-      const data = await response.json();
-      const dailyForecast = data.list.filter((forecast) => forecast.dt_txt.includes("12:00:00"));
-
-      props.setForecastData(dailyForecast);
-      setTimeout(() => {
-        setLoading(false);
-      }, 1000);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  console.log("rerender");
   return (
     <Col xs={12} className="mb-2 px-1">
-      <div className="weather-panel forecast d-flex flex-column align-items-start justify-content-center">
+      <div className="weather-panel forecast d-flex flex-column align-items-center justify-content-center">
         <Col xs={12}>
           <h4>5 Day Forecast</h4>
         </Col>
-        <Row className="align-items-center justify-content-center">
+        <Row className="align-items-center justify-content-center w-100">
           {props.home.forecastData.map((forecast) => {
             const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
             const d = new Date(forecast.dt_txt);
