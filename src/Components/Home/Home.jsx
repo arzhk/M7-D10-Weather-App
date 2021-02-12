@@ -21,7 +21,6 @@ export const Home = (props) => {
         `${process.env.REACT_APP_BASE_URL}weather?q=${query}&units=metric${process.env.REACT_APP_API_KEY}`
       );
       const data = await response.json();
-      console.log(data);
       if (data.cod === 200) {
         props.setWeatherData(data);
         setTimeout(() => {
@@ -45,7 +44,7 @@ export const Home = (props) => {
       const data = await response.json();
       const dailyForecast = data.list.filter((forecast) => forecast.dt_txt.includes("12:00:00"));
       props.setForecastData(dailyForecast);
-      console.log(data);
+      console.log(dailyForecast);
     } catch (err) {
       console.log(err);
     }
@@ -64,12 +63,13 @@ export const Home = (props) => {
 
   useEffect(() => {
     weatherDataFetcher("london");
+    forecastDataFetcher("london");
   }, []);
 
   return (
     <div id="home-main-container">
       <Row>
-        <Col xs={8}>
+        <Col xs={8} className="px-2">
           <div id="home-left">
             <div className="search-container d-flex align-items-center mb-4">
               <svg
@@ -124,10 +124,39 @@ export const Home = (props) => {
             </div>
           </div>
         </Col>
-        <Col xs={4}>
+        <Col xs={4} className="px-2">
           <div id="home-right" className="d-flex flex-column justify-content-around align-items-start">
-            <div className="home-right-top">aaaaaa</div>
-            <div className="home-right-middle">aaaaaa</div>
+            <div className="home-right-top">
+              <div className="today-panel d-flex flex-column">
+                {loaded && (
+                  <div className="today-icon d-flex align-items-center justify-content-start">
+                    {props.home.weatherData.main.temp < 10 && (
+                      <i className="fas fa-icicles d-flex align-items-center justify-content-center mb-2"></i>
+                    )}
+                    {props.home.weatherData.main.temp >= 10 && props.home.weatherData.main.temp < 20 && (
+                      <i class="fas fa-cloud-sun d-flex align-items-center justify-content-center mb-2"></i>
+                    )}
+                    {props.home.weatherData.main.temp > 20 && (
+                      <i className="fas fa-sun d-flex align-items-center justify-content-center mb-2"></i>
+                    )}
+                  </div>
+                )}
+                {loaded && (
+                  <div className="today-icon d-flex align-items-start justify-content-center">
+                    {props.home.weatherData.main.temp < 10 && (
+                      <p className="font-weight-light">Today is Cold, remember to wear a coat!</p>
+                    )}
+                    {props.home.weatherData.main.temp >= 10 && props.home.weatherData.main.temp < 20 && (
+                      <p className="font-weight-light">Today is Mild, make sure to stay warm!</p>
+                    )}
+                    {props.home.weatherData.main.temp > 20 && (
+                      <p className="font-weight-light">Today is Hot, remember to drink plenty of water!</p>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="home-right-middle"></div>
             <div className="home-right-bottom">
               <h4 className="font-weight-bold">City</h4>
               <Cities />

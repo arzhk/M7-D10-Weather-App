@@ -19,7 +19,7 @@ export const Cities = (props) => {
           <p className="font-weight-bold">
             London<span className="font-weight-normal">, United Kingdom</span>
           </p>
-          <small>Temp°</small>
+          <small>Temperature°</small>
         </div>
       </div>
       <div className="city-panel d-flex align-items-center justify-content-start mb-3">

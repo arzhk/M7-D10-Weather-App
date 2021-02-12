@@ -22,7 +22,7 @@
 #home-right {
   min-height: calc(100vh - 60px);
   border-radius: 0.75rem;
-  padding: 40px;
+  padding: 30px;
   background: #00d2ff;
   background: -webkit-linear-gradient(135deg, #619ef3, #0084ff);
   background: linear-gradient(135deg, #619ef3, #0084ff);
@@ -86,4 +86,21 @@
   padding: 10px 10px;
   border-radius: 0.75rem;
   display: inline-block;
+}
+
+.today-icon i {
+  background-color: rgba(0, 0, 0, 0.15);
+  padding: 10px 10px;
+  border-radius: 0.75rem;
+  width: 80px;
+  height: 80px;
+  font-size: 2.5rem;
+  color: rgba(255, 255, 255, 0.95);
+  text-align: center;
+}
+
+.today-icon p {
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  border-radius: 0.75rem;
 }

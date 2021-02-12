@@ -23,10 +23,7 @@ export const Forecast = (props) => {
     }
   };
 
-  useEffect(() => {
-    forecastDataFetcher("london");
-  }, []);
-
+  console.log("rerender");
   return (
     <Col xs={12} className="mb-2 px-1">
       <div className="weather-panel forecast d-flex flex-column align-items-start justify-content-center">
