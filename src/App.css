@@ -8,9 +8,18 @@
 }
 
 body {
-  font-family: "Comfortaa", cursive;
+  font-family: "Maven Pro", sans-serif;
   background-color: var(--tWhite);
   min-height: 100vh;
+}
+
+.alert-danger {
+  background-color: #ff312eab;
+  color: var(--tWhite);
+  border: none;
+  border-radius: 0.75rem;
+  font-weight: light;
+  font-size: 0.9rem;
 }
 
 /* -------------------------------- ANIMATIONS */

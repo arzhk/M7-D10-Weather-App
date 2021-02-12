@@ -1,5 +1,6 @@
 #home-main-container {
   background-color: var(--tWhite);
+  color: var(--tWhite);
   width: calc(100% - 90px);
   min-height: 100vh;
   margin-left: 90px;
@@ -21,7 +22,7 @@
 #home-right {
   min-height: calc(100vh - 60px);
   border-radius: 0.75rem;
-  padding: 50px;
+  padding: 40px;
   background: #00d2ff;
   background: -webkit-linear-gradient(135deg, #619ef3, #0084ff);
   background: linear-gradient(135deg, #619ef3, #0084ff);
@@ -45,4 +46,44 @@
 
 .search-container input:focus {
   outline: none;
+}
+
+.home-right-top,
+.home-right-middle,
+.home-right-bottom {
+  min-height: 29vh;
+  width: 100%;
+}
+
+.city-panel small {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.city-icon {
+  height: 65px;
+  width: 65px;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 0.75rem;
+}
+
+.city-info p {
+  margin-bottom: -5px !important;
+}
+
+.forecast-daily-panel {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  padding: 0px 10px 10px;
+  height: 200px;
+}
+
+.forecast-daily-panel img {
+  margin-bottom: -16px;
+}
+
+.country-label {
+  background-color: rgba(0, 0, 0, 0.15);
+  padding: 10px 10px;
+  border-radius: 0.75rem;
+  display: inline-block;
 }

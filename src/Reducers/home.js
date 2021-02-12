@@ -1,14 +1,14 @@
 export default function (state = {}, action) {
   switch (action.type) {
-    case "SET_ERROR":
+    case "SET_WEATHER_DATA":
       return {
         ...state,
-        errors: action.payload,
+        weatherData: action.payload,
       };
-    case "DISPLAY_ERRORS":
+    case "SET_FORECAST_DATA":
       return {
         ...state,
-        show: action.payload,
+        forecastData: action.payload,
       };
     default:
       return state;

@@ -29,8 +29,8 @@ export const SideMenu = ({ user }) => {
   return (
     <div id="sidebar-main-container" className="d-flex flex-column justify-content-between align-items-center">
       <div className="sidebar-top">
-        {links.map((link) => (
-          <Button className="sidebar-button">
+        {links.map((link, index) => (
+          <Button key={index} className="sidebar-button">
             <i className={`fas fa-${link.icon}`}></i>
             <small className="sidebar-button-label mb-0 slide-in-blurred-top">{link.text}</small>
           </Button>

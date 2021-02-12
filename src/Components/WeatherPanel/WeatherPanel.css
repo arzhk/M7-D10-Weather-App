@@ -1,6 +1,18 @@
-#weather-panel {
-  background-color: rgba(255, 255, 255, 0.15);
+.weather-panel {
+  background-color: rgba(0, 0, 0, 0.125);
   border-radius: 0.75rem;
   padding: 20px;
   min-height: 200px;
+}
+
+.weather-panel .fa-icicles,
+.weather-panel .fa-cloud-sun,
+.weather-panel .fa-sun,
+.weather-panel .fa-wind {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.faded-txt {
+  color: rgba(255, 255, 255, 0.6);
 }
