@@ -24,7 +24,7 @@ const Favourites = (props) => {
 
   const toggleFavourited = async (location) => {
     try {
-      const response = await fetch("http://localhost:5555/api/weather/favourite", {
+      const response = await fetch(`${process.env.REACT_APP_LOGIN_URL}/weather/favourite`, {
         method: "POST",
         body: JSON.stringify({ location: location }),
         headers: {

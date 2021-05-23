@@ -11,7 +11,7 @@ import Login from "./Login/Login";
 const Main = (props) => {
   const authorise = async () => {
     try {
-      const response = await fetch("http://localhost:5555/api/users/me", { credentials: "include" });
+      const response = await fetch(`${process.env.REACT_APP_LOGIN_URL}/users/me`, { credentials: "include" });
       const data = await response.json();
       if (!data.errors) {
         props.history.push("/");
@@ -37,7 +37,7 @@ const Main = (props) => {
 
   const logoutHandler = async () => {
     try {
-      await fetch("http://localhost:5555/api/users/logout", { credentials: "include" });
+      await fetch(`${process.env.REACT_APP_LOGIN_URL}/users/logout`, { credentials: "include" });
       setTimeout(() => {
         props.history.push("/login");
         window.location.reload();
