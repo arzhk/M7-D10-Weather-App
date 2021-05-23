@@ -1,6 +1,6 @@
 #home-main-container {
   background-color: var(--tWhite);
-  color: var(--tBlack);
+  /*  color: var(--tBlack); */
   width: calc(100% - 80px);
   min-height: 100vh;
   margin-left: 80px;
