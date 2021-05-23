@@ -1,0 +1,14 @@
+#home-main-container {
+  background-color: var(--tWhite);
+  color: var(--tBlack);
+  width: calc(100% - 80px);
+  min-height: 100vh;
+  margin-left: 80px;
+  padding: 30px;
+  position: relative;
+  z-index: 0;
+}
+
+p {
+  color: red !important;
+}

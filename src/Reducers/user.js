@@ -3,9 +3,9 @@ export default function (state = {}, action) {
     case "UPDATE_USER_INFO":
       return {
         ...state,
-        user: action.payload,
+        ...action.payload,
       };
-    case "ADD_NEW_FAVOURITE":
+    case "ADD_FAVOURITE":
       return {
         ...state,
         favourites: [...state.favourites, action.payload],

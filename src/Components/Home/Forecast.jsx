@@ -7,16 +7,14 @@ export const Forecast = (props) => {
   return (
     <Col xs={12} className="mb-2 px-1">
       <div className="weather-panel forecast d-flex flex-column align-items-center justify-content-center">
-        <Col xs={12}>
-          <h4>5 Day Forecast</h4>
-        </Col>
-        <Row className="align-items-center justify-content-center w-100">
-          {props.home.forecastData.map((forecast) => {
+        <h4 className="w-100 mb-0 pl-1">5 Day Forecast</h4>
+        <Row className="align-items-center justify-content-center w-100 mt-3">
+          {props.home.forecastData.map((forecast, index) => {
             const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
             const d = new Date(forecast.dt_txt);
             const dayName = days[d.getDay()];
             return (
-              <Col xs={12} md={6} lg={2} className="px-1 mx-2 mb-2">
+              <Col key={index} xs={12} md={6} lg={2} className="col-20percent px-1 mx-0 mb-2">
                 <div className="forecast-daily-panel d-flex flex-column align-items-center justify-content-center text-center">
                   <small className="mb-0">{dayName}</small>
                   <img src={`http://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png`} />

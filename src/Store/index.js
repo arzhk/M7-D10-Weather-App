@@ -3,15 +3,24 @@ import searchReducer from "../Reducers/search";
 import errorsReducer from "../Reducers/errors";
 import userReducer from "../Reducers/user";
 import homeReducer from "../Reducers/home";
+import appReducer from "../Reducers/app";
 
 const composedEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const initialState = {
-  user: {
+  /* user: {
     firstName: "Aaron",
     surname: "Rizhik",
     username: "arzhk",
     location: "London, United Kingdom",
+    img: "https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png",
+    favourites: [],
+  }, */
+  user: {
+    firstName: "",
+    surname: "",
+    username: "",
+    location: "",
     img: "https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png",
     favourites: [],
   },
@@ -27,6 +36,9 @@ const initialState = {
     show: false,
     errors: [],
   },
+  app: {
+    loading: true,
+  },
 };
 
 const reducerMerge = combineReducers({
@@ -34,6 +46,7 @@ const reducerMerge = combineReducers({
   search: searchReducer,
   home: homeReducer,
   errors: errorsReducer,
+  app: appReducer,
 });
 
 export default function configureStore() {

@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import "./Home.css";
-import { Col, Row, Alert } from "react-bootstrap";
+import { Col, Row, Alert, Button } from "react-bootstrap";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import WeatherPanel from "../WeatherPanel/WeatherPanel";
-import PanelLoaderXl from "../Loaders/PanelLoader_xl";
-import PanelLoaderLg from "../Loaders/PanelLoader_lg";
-import PanelLoaderSm from "../Loaders/PanelLoader_sm";
 import Cities from "./Cities";
 import Forecast from "./Forecast";
 
-export const Home = (props) => {
+const Home = (props) => {
   const [loaded, setLoaded] = useState(false);
   const [searchInput, setSearchInput] = useState("");
+  const [isFavourited, setIsFavourited] = useState(false);
 
   const weatherDataFetcher = async (query) => {
     try {
@@ -44,9 +42,35 @@ export const Home = (props) => {
       const data = await response.json();
       const dailyForecast = data.list.filter((forecast) => forecast.dt_txt.includes("12:00:00"));
       props.setForecastData(dailyForecast);
-      console.log(dailyForecast);
     } catch (err) {
       console.log(err);
+    }
+  };
+
+  const checkFavourited = () => {
+    if (props.user.favourites.findIndex((favourite) => favourite.location === props.home.weatherData.name) !== -1) {
+      setIsFavourited(true);
+    } else {
+      setIsFavourited(false);
+    }
+  };
+
+  const toggleFavourited = async () => {
+    try {
+      const response = await fetch("http://localhost:5555/api/weather/favourite", {
+        method: "POST",
+        body: JSON.stringify({ location: props.home.weatherData.name, country: props.home.weatherData.sys.country }),
+        headers: {
+          "content-type": "application/json",
+        },
+        credentials: "include",
+      });
+      const data = await response.json();
+      if (!data.errors) {
+        props.setUser(data);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -61,15 +85,82 @@ export const Home = (props) => {
     setSearchInput(event.target.value);
   };
 
+  const weatherIconHandler = () => {
+    const temp = props.home.weatherData.main.temp;
+    if (temp < 10) {
+      return (
+        <>
+          <i className="fas fa-icicles d-flex align-items-center justify-content-center mr-3"></i>
+          <p className="font-weight-light mb-0">Today is Cold, remember to wear a coat!</p>
+        </>
+      );
+    } else if (temp > 20) {
+      return (
+        <>
+          <i className="fas fa-sun d-flex align-items-center justify-content-center mr-3"></i>
+          <p className="font-weight-light mb-0">Today is Hot, remember to drink plenty of water!</p>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <i className="fas fa-cloud-sun d-flex align-items-center justify-content-center mr-3"></i>
+          <p className="font-weight-light mb-0">Today is Mild, make sure to stay warm!</p>
+        </>
+      );
+    }
+  };
+
   useEffect(() => {
+    checkFavourited();
     weatherDataFetcher("london");
     forecastDataFetcher("london");
   }, []);
 
+  useEffect(() => {
+    checkFavourited();
+  }, [props.user.favourites, props.home.weatherData]);
+
   return (
     <div id="home-main-container">
       <Row>
-        <Col xs={8} className="px-2">
+        <h1 className="font-weight-bold text-dark px-2 mb-3" style={{ letterSpacing: -2 }}>
+          Welcome back {props.user.firstName}!
+        </h1>
+        <Col xs={12} className="px-2 mb-3">
+          <div id="home-right" className="d-flex justify-content-lg-between  align-items-lg-start  h-100">
+            <div className="home-right-top" style={{ height: "100%" }}>
+              <Row className="d-flex align-items-center justify-content-center" style={{ height: "100%" }}>
+                <Col sm={12} lg={5} className="mb-3 mb-lg-0 py-2 py-lg-0" style={{ height: "100%" }}>
+                  <div
+                    className="home-right-panel d-flex align-items-center justify-content-lg-start"
+                    style={{ height: "100%", width: "100%" }}
+                  >
+                    {loaded ? (
+                      props.home.weatherData && weatherIconHandler()
+                    ) : (
+                      <div style={{ width: "100%" }}>
+                        <SkeletonTheme
+                          color="rgba(255,255,255,0.1)"
+                          highlightColor="rgba(255,255,255,0.1)"
+                          style={{ width: "100%", display: "block" }}
+                        >
+                          <Skeleton height={40} style={{ minWidth: 250 }} />
+                        </SkeletonTheme>
+                      </div>
+                    )}
+                  </div>
+                </Col>
+                <Col sm={12} lg={7}>
+                  <div className="home-right-panel">
+                    <Cities />
+                  </div>
+                </Col>
+              </Row>
+            </div>
+          </div>
+        </Col>
+        <Col xs={12} className="px-2 mb-md-3 mb-lg-0">
           <div id="home-left">
             <div className="search-container d-flex align-items-center mb-4">
               <svg
@@ -90,85 +181,81 @@ export const Home = (props) => {
                 onKeyDown={(event) => searchFetcher(event)}
               />
             </div>
-            <div id="weather-forecast">
-              <Row>
-                <h1 className="font-weight-light mb-5">
-                  <span className="font-weight-bold">Weather</span> Forecast
-                </h1>
-              </Row>
-              {loaded && (
+            <Row>
+              <h1 className="font-weight-light mb-5">
+                <span className="font-weight-bold">Weather</span> Forecast
+              </h1>
+            </Row>
+            <Row className="align-items-center mb-2">
+              {loaded ? (
                 <>
-                  <Row>
-                    <h2 className="mr-3">Today</h2>
-                    <h5 className="country-label font-weight-light">
-                      {props.home.weatherData.name}, {props.home.weatherData.sys.country}{" "}
-                    </h5>
-                  </Row>
+                  <h2 className="mr-3 mb-0">Today</h2>
+                  <h5 className="country-label font-weight-light mb-0 mr-2">
+                    {props.home.weatherData.name}, {props.home.weatherData.sys.country}{" "}
+                  </h5>
+                  <Button
+                    className="favourite-btn d-flex align-items-center justify-content-center rounded-circle"
+                    style={{ width: 40, height: 40 }}
+                    onClick={toggleFavourited}
+                  >
+                    <i className={isFavourited ? "fa fa-star" : "far fa-star"}></i>
+                  </Button>
                 </>
+              ) : (
+                <SkeletonTheme
+                  color="rgba(255,255,255,0.1)"
+                  highlightColor="rgba(255,255,255,0.1)"
+                  style={{ display: "flex" }}
+                >
+                  <Skeleton width={"Today".length * 20} height={46} className="mr-3 mb-0" />
+                  <Skeleton
+                    width={
+                      props.home.weatherData.length ? props.home.weatherData.name.length * 20 : "London".length * 20
+                    }
+                    height={46}
+                    className="mr-2"
+                    style={{ transition: "width 0.25s ease" }}
+                  />
+                  <Skeleton circle={true} width={46} height={46} />
+                </SkeletonTheme>
               )}
-
-              <Row>
-                {props.errors.show && <Alert variant="danger">Error: {props.errors.errors.message}</Alert>}
-                {!props.errors.show &&
-                  (loaded ? (
-                    <WeatherPanel />
-                  ) : (
-                    <div className="loaders">
-                      <PanelLoaderLg className="mr-2 mb-2" />
-                      <PanelLoaderSm className="mr-2 mb-2" />
-                      <PanelLoaderSm className="mb-2" />
-                    </div>
-                  ))}
-              </Row>
-              <Row>
-                {loaded ? (
-                  <Forecast />
+            </Row>
+            <Row>
+              {props.errors.show && <Alert variant="danger">Error: {props.errors.errors.message}</Alert>}
+              {!props.errors.show &&
+                (loaded ? (
+                  <WeatherPanel />
                 ) : (
-                  <div className="loaders">
-                    <PanelLoaderXl />
-                  </div>
-                )}
-              </Row>
-            </div>
-          </div>
-        </Col>
-        <Col xs={4} className="px-2">
-          <div id="home-right" className="d-flex flex-column justify-content-around align-items-start">
-            <div className="home-right-top">
-              <div className="today-panel d-flex flex-column">
-                {loaded && (
-                  <div className="today-icon d-flex align-items-center justify-content-start">
-                    {props.home.weatherData.main.temp < 10 && (
-                      <i className="fas fa-icicles d-flex align-items-center justify-content-center mb-2"></i>
-                    )}
-                    {props.home.weatherData.main.temp >= 10 && props.home.weatherData.main.temp < 20 && (
-                      <i class="fas fa-cloud-sun d-flex align-items-center justify-content-center mb-2"></i>
-                    )}
-                    {props.home.weatherData.main.temp > 20 && (
-                      <i className="fas fa-sun d-flex align-items-center justify-content-center mb-2"></i>
-                    )}
-                  </div>
-                )}
-                {loaded && (
-                  <div className="today-icon d-flex align-items-start justify-content-center">
-                    {props.home.weatherData.main.temp < 10 && (
-                      <p className="font-weight-light">Today is Cold, remember to wear a coat!</p>
-                    )}
-                    {props.home.weatherData.main.temp >= 10 && props.home.weatherData.main.temp < 20 && (
-                      <p className="font-weight-light">Today is Mild, make sure to stay warm!</p>
-                    )}
-                    {props.home.weatherData.main.temp > 20 && (
-                      <p className="font-weight-light">Today is Hot, remember to drink plenty of water!</p>
-                    )}
-                  </div>
-                )}
-              </div>
-            </div>
-            <div className="home-right-middle"></div>
-            <div className="home-right-bottom">
-              <h4 className="font-weight-bold">City</h4>
-              <Cities />
-            </div>
+                  <>
+                    <Col md={12} lg={6} className="mb-2 pr-1 pl-0">
+                      <SkeletonTheme color="rgba(255,255,255,0.1)" highlightColor="rgba(255,255,255,0.1)">
+                        <Skeleton height={200} />
+                      </SkeletonTheme>
+                    </Col>
+                    <Col xs={12} md={6} lg={3} className="mb-2 px-1">
+                      <SkeletonTheme color="rgba(255,255,255,0.1)" highlightColor="rgba(255,255,255,0.1)">
+                        <Skeleton height={200} />
+                      </SkeletonTheme>
+                    </Col>
+                    <Col xs={12} md={6} lg={3} className="mb-2 px-1">
+                      <SkeletonTheme color="rgba(255,255,255,0.1)" highlightColor="rgba(255,255,255,0.1)">
+                        <Skeleton height={200} />
+                      </SkeletonTheme>
+                    </Col>
+                  </>
+                ))}
+            </Row>
+            <Row>
+              {loaded ? (
+                <Forecast />
+              ) : (
+                <Col md={12} className="mb-2 pr-1 pl-0">
+                  <SkeletonTheme color="rgba(255,255,255,0.1)" highlightColor="rgba(255,255,255,0.1)">
+                    <Skeleton height={294} />
+                  </SkeletonTheme>
+                </Col>
+              )}
+            </Row>
           </div>
         </Col>
       </Row>
@@ -179,8 +266,11 @@ export const Home = (props) => {
 const mapStateToProps = (state) => state;
 
 const mapDispatchToProps = (dispatch) => ({
+  setUser: (data) => dispatch({ type: "UPDATE_USER_INFO", payload: data }),
   setForecastData: (data) => dispatch({ type: "SET_FORECAST_DATA", payload: data }),
   setWeatherData: (data) => dispatch({ type: "SET_WEATHER_DATA", payload: data }),
+  addFavourite: (location) => dispatch({ type: "ADD_FAVOURITE", payload: location }),
+  removeFavourite: (location) => dispatch({ type: "REMOVE_FAVOURITE", payload: location }),
   setError: (error) => dispatch({ type: "SET_ERROR", payload: error }),
   showErrors: (boolean) => dispatch({ type: "DISPLAY_ERRORS", payload: boolean }),
 });

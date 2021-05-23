@@ -12,9 +12,8 @@ export const Cities = (props) => {
     }
  */
   return (
-    <div id="cities-container" className="mt-3">
-      <div className="city-panel d-flex align-items-center justify-content-start mb-3">
-        <div className="city-icon mr-3"></div>
+    <div id="cities-container" className="d-flex align-items-center justify-content-between">
+      <div className="city-panel d-flex align-items-center justify-content-start">
         <div className="city-info">
           <p className="font-weight-bold">
             London<span className="font-weight-normal">, United Kingdom</span>
@@ -22,8 +21,7 @@ export const Cities = (props) => {
           <small>Temperature°</small>
         </div>
       </div>
-      <div className="city-panel d-flex align-items-center justify-content-start mb-3">
-        <div className="city-icon mr-3"></div>
+      <div className="city-panel d-flex align-items-center justify-content-start">
         <div className="city-info">
           <p className="font-weight-bold">
             Paris<span className="font-weight-normal">, France</span>
@@ -32,7 +30,6 @@ export const Cities = (props) => {
         </div>
       </div>
       <div className="city-panel d-flex align-items-center justify-content-start">
-        <div className="city-icon mr-3"></div>
         <div className="city-info">
           <p className="font-weight-bold">
             Madrid<span className="font-weight-normal">, Spain</span>

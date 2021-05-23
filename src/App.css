@@ -15,11 +15,37 @@ body {
 
 .alert-danger {
   background-color: #ff312eab;
-  color: var(--tWhite);
+  color: white;
   border: none;
   border-radius: 0.75rem;
   font-weight: light;
   font-size: 0.9rem;
+}
+
+.alert-success {
+  background-color: #3fff2eab;
+  color: rgb(25, 128, 56);
+  border: none;
+  border-radius: 0.75rem;
+  font-weight: light;
+  font-size: 0.9rem;
+}
+
+#main-loader-wrapper {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 50px;
+}
+
+#main-loader {
+  background-color: white;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  padding: 20px;
+  border-bottom: 3px solid rgba(0, 0, 0, 0.15);
 }
 
 /* -------------------------------- ANIMATIONS */
