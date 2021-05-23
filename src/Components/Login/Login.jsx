@@ -15,7 +15,7 @@ const Login = (props) => {
     try {
       props.setError([]);
       props.showErrors(false);
-      const response = await fetch("http://localhost:5555/api/users/login", {
+      const response = await fetch(`${process.env.REACT_APP_LOGIN_URL}/users/login`, {
         method: "POST",
         body: JSON.stringify(guest ? { username: "guest", password: "guestpassword" } : inputData),
         headers: {
@@ -42,7 +42,7 @@ const Login = (props) => {
 
   const authorise_login = async () => {
     try {
-      const response = await fetch("http://localhost:5555/api/users/me", { credentials: "include" });
+      const response = await fetch(`${process.env.REACT_APP_LOGIN_URL}/users/me`, { credentials: "include" });
       const data = await response.json();
       if (!data.errors) {
         props.setLoading(true);
