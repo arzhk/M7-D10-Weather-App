@@ -66,7 +66,7 @@ const Main = (props) => {
       {props.app.loading ? (
         <div id="main-loader-wrapper">
           <div id="main-loader" className="d-flex align-items-center">
-            <h5 className="font-weight-bold mb-0 mr-3">Loading Content</h5>
+            <h5 className="font-weight-bold mb-0 mr-3">Loading...</h5>
             <Spinner variant="primary" animation="grow" role="status" size="sm" className="mr-1"></Spinner>
             <Spinner variant="primary" animation="grow" role="status" size="sm" className="mr-1"></Spinner>
             <Spinner variant="primary" animation="grow" role="status" size="sm"></Spinner>

@@ -10,14 +10,14 @@ const Login = (props) => {
   });
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const loginHandler = async (event) => {
+  const loginHandler = async (event, guest = false) => {
     event.preventDefault();
     try {
       props.setError([]);
       props.showErrors(false);
       const response = await fetch("http://localhost:5555/api/users/login", {
         method: "POST",
-        body: JSON.stringify(inputData),
+        body: JSON.stringify(guest ? { username: "guest", password: "guestpassword" } : inputData),
         headers: {
           "Content-Type": "application/json",
         },
@@ -44,7 +44,6 @@ const Login = (props) => {
     try {
       const response = await fetch("http://localhost:5555/api/users/me", { credentials: "include" });
       const data = await response.json();
-      console.log(data);
       if (!data.errors) {
         props.setLoading(true);
         props.history.push("/");
@@ -88,7 +87,7 @@ const Login = (props) => {
             </Alert>
           ))}
         {isLoggedIn && <Alert variant="success">Logging In...</Alert>}
-        <form id="login-form" className="text-center mb-4" onSubmit={loginHandler}>
+        <form id="login-form" className="text-center mb-2" onSubmit={loginHandler}>
           <input
             name="username"
             type="text"
@@ -109,10 +108,10 @@ const Login = (props) => {
             Login
           </Button>
         </form>
-        <div className="text-center">
-          <small className="font-weight-bold mb-0">Dont have an account?</small>
-          <Button variant="danger" className="register-btn">
-            Register Now
+        <div className="text-center d-flex flex-column  align-items-center">
+          <small className="font-weight-bold mb-0">or</small>
+          <Button variant="light" className="register-btn mt-2" onClick={(event) => loginHandler(event, true)}>
+            Sign in as a guest
           </Button>
         </div>
       </div>

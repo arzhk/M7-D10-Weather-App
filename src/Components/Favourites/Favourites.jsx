@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Button } from "react-bootstrap";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import SingleForecast from "./SingleForecast";
+import "./Favourites.css";
 
 const Favourites = (props) => {
   const [favourites, setFavourites] = useState([]);
@@ -17,6 +19,26 @@ const Favourites = (props) => {
       return dailyForecast;
     } catch (err) {
       console.log(err);
+    }
+  };
+
+  const toggleFavourited = async (location) => {
+    try {
+      const response = await fetch("http://localhost:5555/api/weather/favourite", {
+        method: "POST",
+        body: JSON.stringify({ location: location }),
+        headers: {
+          "content-type": "application/json",
+        },
+        credentials: "include",
+      });
+      const data = await response.json();
+      if (!data.errors) {
+        setLoading(true);
+        props.setUser(data);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -36,13 +58,14 @@ const Favourites = (props) => {
       await setFavourites(data);
       setTimeout(() => {
         setLoading(false);
-      }, 1500);
+      }, 1000);
     }
   };
 
   useEffect(() => {
+    setLoading(true);
     start();
-  }, []);
+  }, [props.user]);
 
   return (
     <div id="home-main-container">
@@ -61,29 +84,27 @@ const Favourites = (props) => {
                 favourites.map((forecast, index) => {
                   return (
                     <>
-                      <h4 className="w-100 mb-0 pl-1">
-                        {props.user.favourites[index].location}, {props.user.favourites[index].country}
-                      </h4>
+                      <div className="d-flex justify-content-between align-items-center w-100">
+                        <h4 className="mb-0 pl-1">
+                          {props.user.favourites[index].location}, {props.user.favourites[index].country}
+                        </h4>
+                        <Button
+                          className="remove-btn rounded-pill"
+                          style={{ fontSize: 12 }}
+                          onClick={() => toggleFavourited(props.user.favourites[index].location)}
+                        >
+                          Remove from favourites
+                        </Button>
+                      </div>
+
                       <Row className="align-items-center justify-content-center w-100 mt-3">
-                        {forecast.map((dailyForecast) => {
-                          const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-                          const d = new Date(dailyForecast.dt_txt);
-                          const dayName = days[d.getDay()];
-                          return (
-                            <Col key={index} xs={12} md={6} lg={2} className="col-20percent px-1 mx-0 mb-2">
-                              <div className="forecast-daily-panel d-flex flex-column align-items-center justify-content-center text-center">
-                                <small className="mb-0">{dayName}</small>
-                                <img src={`http://openweathermap.org/img/wn/${dailyForecast.weather[0].icon}@2x.png`} />
-                                <p className="font-weight-bold mb-0">{dailyForecast.main.temp}°</p>
-                                <p className="font-weight-light faded-txt mb-0">
-                                  {dailyForecast.weather[0].description}
-                                </p>
-                              </div>
-                            </Col>
-                          );
-                        })}
+                        {forecast.map((dailyForecast) => (
+                          <SingleForecast data={dailyForecast} />
+                        ))}
                       </Row>
-                      {props.user.favourites.length > 1 && <div className="mb-5"></div>}
+                      {props.user.favourites.length > 1 && index !== favourites.length - 1 && (
+                        <div className="mb-5"></div>
+                      )}
                     </>
                   );
                 })
@@ -100,6 +121,14 @@ const Favourites = (props) => {
 
 const mapStateToProps = (state) => state;
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = (dispatch) => ({
+  setUser: (data) => dispatch({ type: "UPDATE_USER_INFO", payload: data }),
+  setForecastData: (data) => dispatch({ type: "SET_FORECAST_DATA", payload: data }),
+  setWeatherData: (data) => dispatch({ type: "SET_WEATHER_DATA", payload: data }),
+  addFavourite: (location) => dispatch({ type: "ADD_FAVOURITE", payload: location }),
+  removeFavourite: (location) => dispatch({ type: "REMOVE_FAVOURITE", payload: location }),
+  setError: (error) => dispatch({ type: "SET_ERROR", payload: error }),
+  showErrors: (boolean) => dispatch({ type: "DISPLAY_ERRORS", payload: boolean }),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Favourites);

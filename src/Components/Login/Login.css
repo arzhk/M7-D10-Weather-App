@@ -46,12 +46,14 @@
 }
 
 #login-main-container .register-btn {
-  color: var(--tWhite);
-  background-color: var(--tRed);
+  color: var(--tBlack);
+  background-color: var(--tWhite);
   border: none;
   border-radius: 5rem;
   position: relative;
   padding: 6px;
   width: 200px;
+  font-size: 14px;
+  font-weight: 600;
   border-bottom: 3px solid rgba(0, 0, 0, 0.1);
 }

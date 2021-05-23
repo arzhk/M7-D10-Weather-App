@@ -25,22 +25,9 @@ const SideMenu = (props) => {
     }
   };
 
-  const setActivePageHandler = () => {
-    const pathName_formatted = props.location.pathname.split("").splice(1, props.location.pathname.length).join("");
-    if (pathName_formatted === "") {
-      setActiveLink("home");
-    } else {
-      setActiveLink(pathName_formatted);
-    }
-  };
-
   const activeHandler = (index) => {
     setActiveLink(index);
   };
-
-  useEffect(() => {
-    setActivePageHandler();
-  }, [props.location.pathname]);
 
   return (
     <div id="sidebar-main-container" className="d-flex flex-column justify-content-between align-items-center">

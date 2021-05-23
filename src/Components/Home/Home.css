@@ -71,7 +71,8 @@
 }
 
 .city-info p {
-  margin-bottom: -5px !important;
+  margin-bottom: -10px !important;
+  color: #fff;
 }
 
 .forecast-daily-panel {
@@ -106,6 +107,10 @@
   font-size: 2rem;
   color: rgba(255, 255, 255, 0.95);
   text-align: center;
+}
+
+.home-right-panel p {
+  color: rgba(255, 255, 255, 0.95);
 }
 
 @media only screen and (min-width: 970px) {
