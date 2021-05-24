@@ -1,6 +1,6 @@
 ![weather app logo](img/Weather-header.png)
 
-<p align="center"><img src="https://img.shields.io/badge/React-434343?style=for-the-badge&logo=react" alt="React" />&nbsp;<img src="https://img.shields.io/badge/Redux-434343?style=for-the-badge&logo=redux" alt="Redux" />&nbsp;<img src="https://img.shields.io/badge/Node-434343?style=for-the-badge&logo=nodedotjs" alt="Node" />&nbsp;<img src="https://img.shields.io/badge/Express-434343?style=for-the-badge&logo=express" alt="Express" />&nbsp;</p>
+<p align="center"><img src="https://img.shields.io/badge/React-434343?style=for-the-badge&logo=react" alt="React" />&nbsp;<img src="https://img.shields.io/badge/Redux-434343?style=for-the-badge&logo=redux" alt="Redux" />&nbsp;<img src="https://img.shields.io/badge/Node-434343?style=for-the-badge&logo=node-dot-js" alt="Node" />&nbsp;<img src="https://img.shields.io/badge/Express-434343?style=for-the-badge&logo=express" alt="Express" />&nbsp;</p>
 
 This is my take on a `Weather App` which has been built from the ground up.
 
